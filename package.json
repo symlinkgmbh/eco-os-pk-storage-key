@@ -1,6 +1,6 @@
 {
   "name": "@symlinkde/eco-os-pk-storage-key",
-  "version": "0.0.29",
+  "version": "0.0.31",
   "description": "Package containing storage adapter for key service.",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
@@ -47,5 +47,5 @@
   },
   "company": "Symlink GmbH",
   "homepage": "https://2ndlock.com",
-  "repository": "https://gitlab.com"
+  "repository": "https://gitlab.com/symlinkde"
 }

@@ -102,4 +102,12 @@ export class KeyService implements PkStorageKey.IKeyService {
     }
     return false;
   }
+
+  public async revokeDevice(deviceId: string): Promise<boolean> {
+    return await this.keyRepro.deleteMany({
+      deviceId: {
+        $eq: deviceId,
+      },
+    });
+  }
 }

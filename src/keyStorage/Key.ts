@@ -24,12 +24,16 @@ export class Key implements MsKey.IKey {
   public pubKey: string;
   public deviceId: string;
   public _id?: string;
+  public deviceType?: string;
+  public createdAt?: Date;
 
   constructor(key: MsKey.IKey) {
     this.email = key.email;
     this.pubKey = key.pubKey;
     this.deviceId = key.deviceId;
     this._id = key._id;
+    this.deviceType = key.deviceType;
+    this.createdAt = key.createdAt;
   }
 
   public getEmail(): string {
