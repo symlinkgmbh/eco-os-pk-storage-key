@@ -1,6 +1,6 @@
 {
   "name": "@symlinkde/eco-os-pk-storage-key",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "Package containing storage adapter for key service.",
   "types": "lib/index.d.ts",
   "main": "lib/index.js",

@@ -17,7 +17,7 @@
 
 
 
-import { STORAGE_TYPES, storageContainer } from "@symlinkde/eco-os-pk-storage";
+import { STORAGE_TYPES, storageContainer, AbstractBindings } from "@symlinkde/eco-os-pk-storage";
 import { bootstrapperContainer } from "@symlinkde/eco-os-pk-core";
 import Config from "config";
 import { PkStorageKey, PkStorage } from "@symlinkde/eco-os-pk-models";
@@ -25,17 +25,23 @@ import { injectable } from "inversify";
 import { Key } from "./Key";
 
 @injectable()
-export class KeyService implements PkStorageKey.IKeyService {
+export class KeyService extends AbstractBindings implements PkStorageKey.IKeyService {
   private keyRepro: PkStorage.IMongoRepository<Key>;
 
   public constructor() {
-    storageContainer.bind(STORAGE_TYPES.Collection).toConstantValue(Config.get("mongo.collection"));
-    storageContainer.bind(STORAGE_TYPES.Database).toConstantValue(Config.get("mongo.db"));
-    storageContainer.bind(STORAGE_TYPES.StorageTarget).toConstantValue("SECONDLOCK_MONGO_KEY_DATA");
-    storageContainer
-      .bind(STORAGE_TYPES.SECONDLOCK_REGISTRY_URI)
-      .toConstantValue(bootstrapperContainer.get("SECONDLOCK_REGISTRY_URI"));
-    this.keyRepro = storageContainer.getTagged<PkStorage.IMongoRepository<Key>>(
+    super(storageContainer);
+
+    this.initDynamicBinding(
+      [STORAGE_TYPES.Database, STORAGE_TYPES.Collection, STORAGE_TYPES.StorageTarget],
+      [Config.get("mongo.db"), Config.get("mongo.collection"), "SECONDLOCK_MONGO_KEY_DATA"],
+    );
+
+    this.initStaticBinding(
+      [STORAGE_TYPES.SECONDLOCK_REGISTRY_URI],
+      [bootstrapperContainer.get("SECONDLOCK_REGISTRY_URI")],
+    );
+
+    this.keyRepro = this.getContainer().getTagged<PkStorage.IMongoRepository<Key>>(
       STORAGE_TYPES.IMongoRepository,
       STORAGE_TYPES.STATE_LESS,
       false,
